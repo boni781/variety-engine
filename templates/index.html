@@ -1,0 +1,699 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>Variety Engine</title>
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+  >
+  <link
+    rel="icon"
+    type="image/png"
+    href="{{ url_for('static', filename='favicon/favicon.png') }}"
+  >
+
+</head>
+
+
+<body class="data-filter-page">
+
+<!-- SIDEBAR -->
+<aside id="sideBar" class="side-bar">
+
+  <button
+    type="button"
+    id="sidebarToggle"
+    class="sidebar-toggle"
+    onclick="document.body.classList.toggle('sidebar-hidden')"
+    aria-label="Buka atau tutup sidebar"
+  >
+    ☰
+  </button>
+
+  <div class="side-bar-header">
+    <div class="side-bar-logo">
+      VE
+    </div>
+
+    <div class="side-bar-title">
+      Variety Engine
+    </div>
+  </div>
+
+  <div class="side-bar-menu">
+
+    <button
+      type="button"
+      class="side-bar-item active"
+    >
+      <span class="side-bar-icon">🏠</span>
+      <span class="side-bar-text">Data & Filter</span>
+    </button>
+
+    <button
+      type="button"
+      class="side-bar-item"
+      onclick="window.location.href='/shape-editor'"
+    >
+      <span class="side-bar-icon">🗺️</span>
+      <span class="side-bar-text">Shape Editor</span>
+    </button>
+
+  </div>
+
+</aside>
+
+<header class="header">
+
+  <div class="header-content">
+
+    <div>
+      <h1>
+        Variety Engine
+      </h1>
+
+      <p>
+        Sistem pembacaan dan penataan data varietas berbasis Excel
+      </p>
+    </div>
+
+    <button
+      type="button"
+      id="exportDataBtn"
+      class="btn-secondary export-data-button"
+    >
+      Export Excel
+    </button>
+
+  </div>
+
+</header>
+
+<main class="container">
+
+
+  <!-- =================================================
+       UPLOAD
+  ================================================== -->
+
+  <section class="card">
+
+    <div class="section-title">
+      1. Sumber Data Excel
+    </div>
+
+    <div class="upload-row">
+
+      <input
+        type="file"
+        id="excelFile"
+        accept=".xlsx,.xls,.xlsm"
+      >
+
+      <button
+        class="btn-primary"
+        id="uploadBtn"
+      >
+        Upload Excel
+      </button>
+
+    </div>
+
+    <div
+      id="fileInfo"
+      class="info hidden"
+    ></div>
+
+  </section>
+
+
+  <!-- =================================================
+       SHEET / HEADER
+  ================================================== -->
+
+  <section class="card">
+
+    <div class="section-title">
+      2. Pilih Sheet dan Header
+    </div>
+
+
+    <div class="form-grid">
+
+
+      <div class="form-group">
+
+        <label>
+          Sheet
+        </label>
+
+        <select
+          id="sheetSelect"
+          disabled
+        >
+
+          <option value="">
+            Pilih Sheet
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Header Row
+        </label>
+
+        <select
+          id="headerSelect"
+          disabled
+        >
+
+          <option value="">
+            Pilih Header
+          </option>
+
+        </select>
+
+      </div>
+
+
+    </div>
+
+
+    <div
+      id="headerPreview"
+      class="header-preview hidden"
+    ></div>
+
+
+    <div class="actions">
+
+      <button
+        class="btn-primary"
+        id="previewBtn"
+        disabled
+      >
+        Tampilkan Data
+      </button>
+
+      <button
+        class="btn-secondary"
+        id="resetBtn"
+      >
+        Reset
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- =========================================================
+      3. PARAMETER PENYARINGAN
+  ========================================================= -->
+  <section class="card">
+
+      <div class="section-title parameter-section-header">
+
+          <span>
+              3. Parameter Penyaringan
+          </span>
+
+          <button
+              type="button"
+              id="addParameterBtn"
+              class="add-parameter-button"
+          >
+              + Tambah Parameter
+          </button>
+
+      </div>
+
+
+      <!-- =================================================
+          JUDUL KOLOM KOMENTAR
+      ================================================== -->
+
+      <div class="form-group">
+
+          <label for="commentColumnTitle">
+              Judul kolom komentar
+          </label>
+
+          <input
+              type="text"
+              id="commentColumnTitle"
+              value="Keterangan Penataan"
+              placeholder="Keterangan Penataan"
+          >
+
+      </div>
+
+
+      <!-- =================================================
+          SUMBER DAFTAR ATRIBUT
+          ID TETAP DIPERTAHANKAN
+      ================================================== -->
+
+      <div
+          class="form-group parameter-source-select"
+          style="display:none;"
+      >
+
+          <label for="parameterSelect">
+              Pilih Parameter / Kolom
+          </label>
+
+          <select id="parameterSelect">
+
+              <option value="">
+                  Pilih parameter...
+              </option>
+
+          </select>
+
+      </div>
+
+
+      <!-- =================================================
+          PARAMETER / KELOMPOK FILTER
+      ================================================== -->
+
+      <div
+          id="selectedParameters"
+          class="selected-parameters"
+      >
+
+          <div class="empty-state">
+              Belum ada parameter yang dibuat.
+          </div>
+
+      </div>
+
+
+      <!-- =================================================
+          ACTION
+      ================================================== -->
+
+      <div class="parameter-actions">
+
+          <button
+              type="button"
+              id="applyFilterBtn"
+              class="btn-primary"
+              disabled
+          >
+              Terapkan Filter
+          </button>
+
+          <button
+              type="button"
+              id="clearFilterBtn"
+              class="btn-secondary"
+          >
+              Bersihkan
+          </button>
+
+      </div>
+
+  </section>
+
+
+  <!-- =========================================================
+      4. HASIL FILTER
+  ========================================================= -->
+  <section class="card">
+      <div class="section-title">4. Hasil Filter</div>
+
+      <div class="filter-result-info">
+
+          <div>
+              <span>Data ditemukan:</span>
+
+              <strong id="filteredCount">-</strong>
+
+              <span
+                  id="filteredShown"
+                  class="filtered-shown"
+              ></span>
+          </div>
+
+          <button
+              type="button"
+              id="exportExcelBtn"
+              class="btn-secondary"
+              disabled
+          >
+              Export Excel
+          </button>
+
+      </div>
+
+      <div class="table-wrapper">
+          <table>
+              <thead id="filteredTableHead"></thead>
+              <tbody id="filteredTableBody">
+                  <tr>
+                      <td class="empty-state">
+                          Tentukan parameter dan filter terlebih dahulu.
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </section>
+
+  <!-- =================================================
+       KPI
+  ================================================== -->
+
+  <section class="kpi-grid">
+
+
+    <div class="kpi">
+
+      <div class="kpi-label">
+        Sheet
+      </div>
+
+      <div
+        class="kpi-value"
+        id="kpiSheet"
+      >
+        -
+      </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+      <div class="kpi-label">
+        Header
+      </div>
+
+      <div
+        class="kpi-value"
+        id="kpiHeader"
+      >
+        -
+      </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+      <div class="kpi-label">
+        Baris Data
+      </div>
+
+      <div
+        class="kpi-value"
+        id="kpiRows"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+      <div class="kpi-label">
+        Kolom
+      </div>
+
+      <div
+        class="kpi-value"
+        id="kpiColumns"
+      >
+        0
+      </div>
+
+    </div>
+
+
+  </section>
+
+
+  <!-- =================================================
+       DATA PREVIEW
+  ================================================== -->
+
+  <section class="card table-card">
+
+
+    <div class="table-header">
+
+      <div>
+
+        <div class="table-title">
+          Preview Data
+        </div>
+
+        <div class="table-subtitle">
+          Data dari sheet dan header yang dipilih
+        </div>
+
+      </div>
+
+
+      <div
+        class="count"
+        id="countText"
+      >
+        0 data
+      </div>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead id="tableHead"></thead>
+
+        <tbody id="tableBody">
+
+          <tr>
+
+            <td class="empty">
+              Belum ada data yang ditampilkan.
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+  </section>
+
+
+</main>
+
+
+<!-- =================================================
+     LOADING
+================================================== -->
+
+<div
+  id="loading"
+  class="loading hidden"
+>
+
+  <div class="loading-box">
+
+    <div class="spinner"></div>
+
+    <div id="loadingText">
+      Memproses...
+    </div>
+
+  </div>
+
+</div>
+
+
+<div
+  id="toast"
+  class="toast hidden"
+></div>
+
+<!-- =================================================
+     EXPORT DATA MODAL
+================================================== -->
+
+<div
+  id="exportDataModal"
+  class="export-data-modal hidden"
+>
+
+  <div class="export-data-modal-overlay"></div>
+
+  <div
+    class="export-data-modal-box"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="exportDataModalTitle"
+  >
+
+    <div class="export-data-modal-header">
+
+      <div>
+        <div
+          id="exportDataModalTitle"
+          class="export-data-modal-title"
+        >
+          Export Data
+        </div>
+
+        <div class="export-data-modal-subtitle">
+          Pilih data yang ingin diekspor
+        </div>
+      </div>
+
+      <button
+        type="button"
+        id="closeExportDataModal"
+        class="export-data-modal-close"
+        aria-label="Tutup"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="export-data-modal-body">
+
+      <label class="export-option">
+
+        <input
+          type="radio"
+          name="exportMode"
+          value="full"
+          checked
+        >
+
+        <span class="export-option-content">
+
+          <strong>
+            File penuh
+          </strong>
+
+          <small>
+            Semua data Excel + Keterangan Penataan
+          </small>
+
+        </span>
+
+      </label>
+
+
+      <label class="export-option">
+
+        <input
+          type="radio"
+          name="exportMode"
+          value="filtered"
+        >
+
+        <span class="export-option-content">
+
+          <strong>
+            Hasil filter
+          </strong>
+
+          <small>
+            Hanya data yang memenuhi parameter
+          </small>
+
+        </span>
+
+      </label>
+
+    </div>
+
+    <div
+      id="exportProgressContainer"
+      class="export-progress-container hidden"
+    >
+
+      <div class="export-progress-header">
+        <span id="exportProgressText">
+          Menyiapkan export...
+        </span>
+
+        <span id="exportProgressPercent">
+          0%
+        </span>
+      </div>
+
+      <div class="export-progress-track">
+        <div
+          id="exportProgressBar"
+          class="export-progress-bar"
+          style="width: 0%;"
+        ></div>
+      </div>
+
+      <div
+        id="exportProgressStatus"
+        class="export-progress-status"
+      >
+        Menunggu...
+      </div>
+
+    </div>
+
+    <div class="export-data-modal-actions">
+
+      <button
+        type="button"
+        id="cancelExportDataBtn"
+        class="btn-secondary"
+      >
+        Batal
+      </button>
+
+      <button
+        type="button"
+        id="confirmExportDataBtn"
+        class="btn-primary"
+      >
+        Export Excel
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script
+  src="{{ url_for('static', filename='js/app.js') }}"
+></script>
+
+
+</body>
+
+</html>

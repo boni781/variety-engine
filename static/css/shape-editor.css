@@ -1,0 +1,2748 @@
+/* =========================================================
+   SHAPE EDITOR — LEGACY BASE CSS
+   CSS dasar yang sebelumnya diberikan oleh style.css.
+   Ditambahkan agar Shape Editor tetap memiliki tampilan lama
+   setelah style.css dilepas.
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --p: #7c3aed;
+    --pd: #6d28d9;
+    --ps: #f3efff;
+    --bg: #f7f7f9;
+    --b: #e7e4ed;
+    --t: #303038;
+    --m: #858590;
+    --sidebar-width: 220px;
+    --sidebar-content-offset: 220px;
+}
+
+html,
+body {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+body {
+    background: #f7f7f9;
+    color: #25252b;
+    font: 13px "Segoe UI", Arial, sans-serif;
+}
+
+button,
+input,
+select {
+    font: inherit;
+    font-family: inherit;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ---------- SIDEBAR BASE ---------- */
+
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    width: var(--sidebar-width);
+
+    background: #ffffff;
+    border-right: 1px solid #ececf1;
+
+    box-shadow:
+        2px 0 14px rgba(30, 30, 50, 0.04);
+
+    padding: 18px 12px;
+
+    z-index: 3000;
+
+    overflow-y: auto;
+    overflow-x: visible;
+
+    transition:
+        width 0.25s ease,
+        padding 0.25s ease,
+        border 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.side-bar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 8px 25px;
+}
+
+.side-bar-logo {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--p);
+    color: #ffffff;
+
+    border-radius: 9px;
+    font-weight: 700;
+}
+
+.side-bar-title {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.side-bar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.side-bar-item {
+    width: 100%;
+    height: 40px;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: transparent;
+    color: #60606a;
+
+    text-align: left;
+    padding: 0 11px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.18s ease,
+        color 0.18s ease;
+}
+
+.side-bar-item:hover {
+    background: #f5f2ff;
+    color: #6d28d9;
+}
+
+.side-bar-item.active {
+    background: #f1edff;
+    color: #6d28d9;
+    font-weight: 600;
+}
+
+.side-bar-icon {
+    width: 23px;
+    flex: 0 0 23px;
+    text-align: center;
+}
+
+.side-bar-text {
+    white-space: nowrap;
+}
+
+/* ---------- HEADER BASE ---------- */
+
+.header {
+    margin-left: var(--sidebar-width);
+    padding: 26px 28px 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    transition: margin-left 0.25s ease;
+
+    width: 100%;
+    max-width: none;
+}
+
+.header h1 {
+    font-size: 23px;
+    color: #25252b;
+}
+
+.header p {
+    margin-top: 5px;
+    color: #858590;
+    font-size: 12px;
+}
+
+/* ---------- CONTAINER + CARD BASE ---------- */
+
+.container {
+    margin-left: var(--sidebar-width);
+    padding: 8px 28px 35px;
+
+    width: 100%;
+    max-width: 1500px;
+
+    transition: margin-left 0.25s ease;
+}
+
+.card {
+    margin-top: 14px;
+    padding: 16px;
+
+    background: #ffffff;
+    border: 1px solid var(--b);
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 14px rgba(30, 30, 50, 0.045);
+}
+
+/* ---------- RESPONSIVE BASE ---------- */
+
+@media (max-width: 900px) {
+    .side-bar {
+        width: 220px;
+    }
+
+    .header {
+        margin-left: 0;
+        padding: 26px 20px 10px 70px;
+    }
+
+    .container {
+        margin-left: 0;
+        padding: 8px 20px 35px;
+    }
+}
+
+@media (max-width: 430px) {
+    .header {
+        padding: 20px 14px 8px 62px;
+    }
+
+    .container {
+        padding: 6px 14px 25px;
+    }
+
+    .card {
+        padding: 12px;
+    }
+}
+
+/* =========================================================
+   END LEGACY BASE
+========================================================= */
+
+
+
+/* =====================================================
+    SHAPE EDITOR
+===================================================== */
+
+.shape-editor-card {
+    margin-bottom: 20px;
+}
+
+.shape-upload-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.shape-file-input {
+    padding: 10px;
+    border: 1px solid #d9dee7;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.shape-upload-button {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.shape-upload-button:hover {
+    background: #1d4ed8;
+}
+
+.shape-info {
+    display: grid;
+    grid-template-columns:
+    repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.shape-info-item {
+    padding: 12px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.shape-info-label {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.shape-info-value {
+    font-weight: 600;
+    color: #1e293b;
+    word-break: break-word;
+}
+
+.shape-workspace {
+    display: block;
+    margin-top: 20px;
+}
+
+.shape-map-container {
+    min-width: 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+}
+
+#shapeMap {
+    width: 100%;
+    height: 650px;
+}
+
+.shape-attribute-panel {
+    width: 100%;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    background: #fff;
+
+    padding: 18px;
+
+    overflow: hidden;
+}
+
+.shape-attribute-panel h3 {
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+/* =====================================================
+    PANEL BAWAH SHAPE EDITOR
+===================================================== */
+
+.shape-bottom-panel {
+    display: grid;
+
+    grid-template-columns:
+    minmax(0, 1fr);
+
+    gap: 18px;
+
+    width: 100%;
+
+    margin-top: 18px;
+}
+
+.shape-editor-panel {
+    width: 100%;
+
+    margin-top: 18px;
+    padding-top: 18px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+.attribute-panel-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 16px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.attribute-panel-header h3 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    color: #1e293b;
+}
+
+.attribute-panel-subtitle {
+    margin-top: 3px;
+
+    font-size: 12px;
+
+    color: #64748b;
+}
+
+.attribute-panel-mode {
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    background: #f1f5f9;
+
+    color: #64748b;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.shape-editor-panel h3 {
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+
+.shape-editor-description {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+
+.shape-editor-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.shape-editor-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.shape-tool-button {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d9dee7;
+    border-radius: 8px;
+
+    background: #fff;
+    color: #1e293b;
+
+    cursor: pointer;
+    font-size: 18px;
+
+    transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.shape-tool-button:hover:not(:disabled) {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+    transform: translateY(-1px);
+}
+
+.shape-tool-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.shape-editor-button {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.shape-editor-button.primary {
+    background: #2563eb;
+    color: white;
+}
+
+
+.shape-editor-button.secondary {
+    background: #e5e7eb;
+    color: #1e293b;
+}
+
+
+.shape-editor-button.success {
+    background: #16a34a;
+    color: white;
+}
+
+
+.shape-editor-button.danger {
+    background: #dc2626;
+    color: white;
+}
+
+
+.shape-editor-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+.shape-editor-status {
+    margin-top: 14px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 13px;
+}
+
+
+@media (max-width: 900px) {
+
+    .shape-bottom-panel {
+    grid-template-columns: 1fr;
+    }
+
+    .shape-attribute-panel {
+    padding: 14px;
+    }
+
+    .attribute-panel-header {
+    align-items: flex-start;
+    }
+
+    .shape-bottom-panel {
+    grid-template-columns: 1fr;
+    }
+
+    #shapeMap {
+    height: 500px;
+    }
+
+}
+
+.attribute-empty {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.attribute-row {
+    padding: 9px 0;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.attribute-edit-input {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 9px 11px;
+
+    border: 1px solid #d9dee7;
+    border-radius: 7px;
+
+    background: #ffffff;
+    color: #1e293b;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+}
+
+.attribute-key {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 3px;
+}
+
+.attribute-value {
+    font-size: 14px;
+    color: #1e293b;
+    word-break: break-word;
+}
+
+.shape-status {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #475569;
+}
+
+/* =====================================================
+    SIDEBAR TOGGLE
+===================================================== */
+
+.sidebar-toggle {
+
+    position: fixed;
+
+    top: 18px;
+    left: 15px;
+
+    width: 36px;
+    height: 36px;
+
+    z-index: 4000;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #1e293b;
+
+    box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.15);
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+/* =====================================================
+    SIDEBAR
+===================================================== */
+
+.side-bar {
+
+    transition:
+    width 0.25s ease,
+    padding 0.25s ease,
+    box-shadow 0.25s ease;
+
+}
+
+
+/* =====================================================
+    SIDEBAR MINIMIZE
+===================================================== */
+
+body.sidebar-hidden .side-bar {
+
+    width: 0;
+
+    padding-left: 0;
+    padding-right: 0;
+
+    border-right: none;
+
+    box-shadow: none;
+
+    overflow: visible;
+
+}
+
+
+/* Sembunyikan isi sidebar */
+
+body.sidebar-hidden
+.side-bar-header,
+
+body.sidebar-hidden
+.side-bar-menu {
+
+    visibility: hidden;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+}
+
+
+/* =====================================================
+    CONTENT SAAT SIDEBAR DITUTUP
+===================================================== */
+
+body.sidebar-hidden .header,
+body.sidebar-hidden .container {
+
+    margin-left: 0;
+
+}
+
+
+/* =====================================================
+    TOGGLE TETAP TERLIHAT
+===================================================== */
+
+body.sidebar-hidden .sidebar-toggle {
+
+    left: 15px;
+
+}
+
+@media (max-width: 900px) {
+
+    .shape-attribute-panel {
+    max-height: 400px;
+    }
+
+    #shapeMap {
+    height: 500px;
+    }
+
+}
+
+/* =====================================================
+    SEARCH POLYGON
+===================================================== */
+
+.shape-search {
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.shape-search-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    width: 100%;
+    min-height: 44px;
+
+    padding: 5px 6px;
+
+    border: 1px solid #e3e1e8;
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    box-shadow: 0 6px 18px rgba(30, 30, 50, 0.10);
+
+    backdrop-filter: blur(6px);
+
+    overflow: visible;
+}
+
+.shape-search-icon {
+    font-size: 17px;
+    flex-shrink: 0;
+}
+
+.shape-search-attribute {
+    flex: 0 0 125px;
+
+    width: 125px;
+    min-width: 125px;
+    max-width: 125px;
+
+    height: 34px;
+
+    padding: 0 5px;
+
+    border: none;
+    border-right: 1px solid #e9e7ee;
+    outline: none;
+
+    background: transparent;
+    color: #555560;
+
+    font-size: 13px;
+    cursor: pointer;
+
+    box-sizing: border-box;
+}
+
+.shape-random-button {
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #f1f5f9;
+    color: #1e293b;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+}
+
+.shape-random-button:hover {
+    background: #e2e8f0;
+}
+
+.shape-random-menu {
+    position: absolute;
+
+    top: calc(100% + 5px);
+    right: 0;
+
+    z-index: 3000;
+
+    display: none;
+
+    min-width: 160px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.12);
+
+    overflow: hidden;
+}
+
+.shape-random-menu button {
+    display: block;
+
+    width: 100%;
+
+    padding: 9px 12px;
+
+    border: none;
+
+    background: #ffffff;
+
+    color: #1e293b;
+
+    text-align: left;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.shape-random-menu button:hover {
+    background: #f8fafc;
+}
+
+.shape-search-input {
+    flex: 1 1 auto;
+
+    width: auto;
+    min-width: 0;
+
+    height: 34px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    padding: 0 4px;
+
+    font-size: 14px;
+    color: #303038;
+
+    box-sizing: border-box;
+}
+
+.shape-search-input::placeholder {
+    color: #94a3b8;
+}
+
+.shape-search-button,
+.shape-random-button {
+    flex: 0 0 34px;
+
+    width: 34px;
+    min-width: 34px;
+    max-width: 34px;
+
+    height: 34px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+}
+
+.shape-search-button:hover {
+    background: #1d4ed8;
+}
+
+.shape-search-results {
+    position: absolute;
+
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+
+    z-index: 3000;
+
+    max-height: 280px;
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 9px;
+
+    box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.shape-search-values {
+    position: absolute;
+
+    top: calc(100% + 5px);
+    left: 0;
+
+    width: 100%;
+
+    z-index: 3001;
+
+    display: none;
+
+    max-height: 280px;
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.shape-search-value {
+    padding: 9px 11px;
+
+    border-bottom: 1px solid #eef2f7;
+
+    font-size: 13px;
+    color: #1e293b;
+
+    cursor: pointer;
+}
+
+.shape-search-value:hover {
+    background: #f8fafc;
+}
+
+.shape-search-value:last-child {
+    border-bottom: none;
+}    
+
+.shape-search-result {
+    padding: 10px 12px;
+
+    border-bottom: 1px solid #eef2f7;
+
+    cursor: pointer;
+
+    font-size: 13px;
+    color: #1e293b;
+}
+
+.shape-search-result:hover {
+    background: #f8fafc;
+}
+
+.shape-search-result:last-child {
+    border-bottom: none;
+}
+
+.shape-search-empty {
+    padding: 12px;
+
+    font-size: 13px;
+    color: #64748b;
+}
+/* =========================================================
+   ATTRIBUTE HIGHLIGHT
+   COMPACT + SCROLL
+   JS TIDAK DIUBAH
+========================================================= */
+
+#attributeHighlightPanel {
+    position: relative !important;
+
+    width: 100%;
+    height: auto;
+
+    margin: 12px 0 18px;
+    padding: 10px 12px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e5e2eb;
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    box-shadow: 0 3px 12px rgba(30, 30, 50, 0.05);
+
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+
+    transform: none !important;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+#attributeHighlightPanel .attribute-highlight-header {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    margin: 0 0 8px;
+}
+
+#attributeHighlightPanel .attribute-highlight-header h3 {
+    margin: 0;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    color: #303038;
+}
+
+#attributeHighlightPanel .attribute-highlight-header p {
+    display: none;
+}
+
+
+/* =========================================================
+   BARIS UTAMA
+========================================================= */
+
+#attributeHighlightPanel .attribute-highlight-row {
+
+    display: grid;
+
+    grid-template-columns:
+        180px
+        minmax(0, 1fr)
+        75px;
+
+    grid-template-rows:
+        auto
+        auto;
+
+    grid-template-areas:
+        "select colors apply"
+        ".      colors reset";
+
+    align-items: start;
+
+    column-gap: 8px;
+    row-gap: 5px;
+
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   SELECT ATRIBUT
+========================================================= */
+
+#highlightAttributeSelect {
+
+    grid-area: select;
+
+    width: 100%;
+    min-width: 0;
+
+    height: 32px;
+
+    padding: 0 8px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #dedbe5;
+    border-radius: 7px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #44444d;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+#highlightAttributeSelect:focus {
+
+    border-color: #a78bfa;
+
+    box-shadow:
+        0 0 0 2px rgba(124, 58, 237, 0.08);
+}
+
+
+/* =========================================================
+   DAFTAR NILAI ATRIBUT
+========================================================= */
+
+#attributeHighlightColors {
+
+    grid-area: colors;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 4px;
+
+    width: 100%;
+    min-width: 0;
+
+    max-height: 112px;
+
+    margin: 0;
+    padding: 0 3px 3px 0;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    box-sizing: border-box;
+
+    scrollbar-width: thin;
+    scrollbar-color: #d2cbdc transparent;
+}
+
+
+/* Scrollbar */
+
+#attributeHighlightColors::-webkit-scrollbar {
+    width: 5px;
+}
+
+#attributeHighlightColors::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#attributeHighlightColors::-webkit-scrollbar-thumb {
+    background: #d2cbdc;
+    border-radius: 10px;
+}
+
+#attributeHighlightColors::-webkit-scrollbar-thumb:hover {
+    background: #b9b0c5;
+}
+
+
+/* =========================================================
+   ITEM ATRIBUT
+========================================================= */
+
+#attributeHighlightColors .attribute-highlight-color-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    width: 100%;
+    min-width: 0;
+
+    height: 26px;
+
+    padding: 2px 5px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e8e5ed;
+    border-radius: 6px;
+
+    background: #fafafd;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   COLOR PICKER
+========================================================= */
+
+#attributeHighlightColors .attribute-highlight-color-picker {
+
+    width: 18px;
+    height: 18px;
+
+    min-width: 18px;
+
+    flex: 0 0 18px;
+
+    padding: 0;
+
+    border: 1px solid #d5d1dc;
+
+    border-radius: 3px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   NAMA ATRIBUT
+========================================================= */
+
+#attributeHighlightColors .attribute-highlight-color-name {
+
+    flex: 1;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-size: 10px;
+
+    line-height: 1;
+
+    color: #4b4b55;
+}
+
+
+/* =========================================================
+   TERAPKAN
+========================================================= */
+
+#applyHighlightButton {
+
+    grid-area: apply;
+
+    width: 75px;
+    height: 32px;
+
+    padding: 0 8px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #7c3aed;
+
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 3px 8px rgba(124, 58, 237, 0.18);
+}
+
+#applyHighlightButton:hover {
+    background: #6d28d9;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+#resetHighlightButton {
+
+    grid-area: reset;
+
+    width: 75px;
+    height: 30px;
+
+    padding: 0 8px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #f0eef4;
+
+    color: #555560;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+#resetHighlightButton:hover {
+    background: #e6e2eb;
+}
+
+
+/* =========================================================
+   LEGEND
+========================================================= */
+
+#attributeHighlightLegend {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: 3px 9px;
+
+    width: 100%;
+
+    max-height: 24px;
+
+    margin-top: 6px;
+    padding-top: 5px;
+
+    border-top: 1px solid #f0eef3;
+
+    overflow-y: auto;
+
+    box-sizing: border-box;
+}
+
+#attributeHighlightLegend .attribute-highlight-legend-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    font-size: 9px;
+
+    color: #777782;
+}
+
+#attributeHighlightLegend .attribute-highlight-color {
+
+    width: 9px;
+    height: 9px;
+
+    flex: 0 0 9px;
+
+    border-radius: 2px;
+
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    #attributeHighlightColors {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        max-height: 112px;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    #attributeHighlightPanel .attribute-highlight-row {
+
+        grid-template-columns:
+            1fr 75px;
+
+        grid-template-areas:
+            "select apply"
+            "colors colors"
+            ". reset";
+
+        gap: 6px;
+    }
+
+    #attributeHighlightColors {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        max-height: 105px;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    #attributeHighlightPanel .attribute-highlight-row {
+
+        grid-template-columns: 1fr;
+
+        grid-template-areas:
+            "select"
+            "apply"
+            "reset"
+            "colors";
+    }
+
+    #applyHighlightButton,
+    #resetHighlightButton {
+
+        width: 100%;
+    }
+
+    #attributeHighlightColors {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        max-height: 120px;
+    }
+}
+
+/* =====================================================
+    SHAPE EDITOR - FULL WIDTH
+===================================================== */
+
+html,
+body {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+
+/* HEADER FULL WIDTH */
+
+.header {
+    width: 100%;
+    max-width: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* CONTAINER FULL WIDTH */
+
+.container {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+}
+
+
+/* SIDEBAR TERBUKA */
+
+body:not(.sidebar-hidden) .header {
+    width: calc(100% - var(--sidebar-width));
+    margin-left: var(--sidebar-width);
+    box-sizing: border-box;
+}
+
+
+body:not(.sidebar-hidden) .container {
+    width: calc(100% - var(--sidebar-content-offset));
+    max-width: none;
+
+    margin-left: var(--sidebar-content-offset);
+    margin-right: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* SIDEBAR DITUTUP */
+
+body.sidebar-hidden .header {
+    width: 100%;
+    margin-left: 0;
+
+    box-sizing: border-box;
+}
+
+
+body.sidebar-hidden .container {
+    width: 100%;
+    max-width: none;
+
+    margin-left: 0;
+    margin-right: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* TOGGLE SELALU TERLIHAT */
+
+.sidebar-toggle {
+    position: fixed;
+
+    top: 18px;
+    left: 15px;
+
+    z-index: 4000;
+}
+
+
+/* SAAT SIDEBAR DITUTUP */
+
+body.sidebar-hidden .sidebar-toggle {
+    position: fixed;
+
+    top: 18px;
+    left: 15px;
+
+    z-index: 4000;
+}
+
+
+/* WORKSPACE FULL WIDTH */
+
+.shape-workspace {
+    width: 100%;
+    max-width: none;
+}
+
+
+/* MAP FULL WIDTH */
+
+.shape-map-container {
+    width: 100%;
+    min-width: 0;
+}
+
+
+/* PANEL BAWAH */
+
+.shape-bottom-panel {
+    width: 100%;
+    min-width: 0;
+}
+
+/* =====================================================
+    EXPORT MODAL
+===================================================== */
+
+.shape-export-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.45);
+}
+
+.shape-export-dialog {
+    width: 100%;
+    max-width: 520px;
+
+    background: #ffffff;
+
+    border-radius: 14px;
+
+    box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.18);
+
+    overflow: hidden;
+}
+
+.shape-export-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px 20px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.shape-export-title {
+    margin: 0;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    color: #1e293b;
+}
+
+.shape-export-close {
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+.shape-export-body {
+    padding: 20px;
+}
+
+.shape-export-format {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    margin-top: 12px;
+}
+
+.shape-export-format-option {
+    position: relative;
+}
+
+.shape-export-format-option input {
+    position: absolute;
+    opacity: 0;
+}
+
+.shape-export-format-label {
+    display: block;
+
+    padding: 14px;
+
+    border: 1px solid #d9dee7;
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.shape-export-format-label strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #1e293b;
+}
+
+.shape-export-format-label span {
+    font-size: 12px;
+
+    color: #64748b;
+}
+
+.shape-export-format-option input:checked
++ .shape-export-format-label {
+    border-color: #2563eb;
+    background: #eff6ff;
+}
+
+.shape-export-info {
+    margin-top: 18px;
+
+    padding: 13px 14px;
+
+    border-radius: 9px;
+
+    background: #f8fafc;
+
+    font-size: 13px;
+
+    color: #475569;
+}
+
+.shape-export-progress {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.shape-export-progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.shape-export-progress-header strong {
+    font-size: 14px;
+    color: #2563eb;
+}
+
+.shape-export-progress-track {
+    width: 100%;
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.shape-export-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #2563eb;
+    border-radius: 999px;
+    transition: width 0.2s ease;
+}
+
+.shape-export-progress-text {
+    margin-top: 7px;
+    font-size: 12px;
+    color: #64748b;
+    text-align: right;
+}    
+
+.shape-export-info-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding: 4px 0;
+}
+
+.shape-export-info-row strong {
+    color: #1e293b;
+}
+
+.shape-export-footer {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    padding: 16px 20px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+.shape-export-cancel,
+.shape-export-confirm {
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 10px 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.shape-export-cancel {
+    background: #e5e7eb;
+    color: #1e293b;
+}
+
+.shape-export-confirm {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.shape-export-confirm:hover {
+    background: #1d4ed8;
+}
+
+@media (max-width: 600px) {
+
+    .shape-export-format {
+    grid-template-columns: 1fr;
+    }
+
+}
+
+.shape-export-settings {
+    margin-top: 18px;
+}
+
+.shape-export-settings label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #475569;
+}
+
+.shape-export-filename {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 10px 12px;
+
+    border: 1px solid #d9dee7;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #1e293b;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+}
+
+.shape-export-filename:focus {
+    border-color: #2563eb;
+}
+
+.shape-export-format-description {
+    margin-top: 9px;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    background: #f8fafc;
+
+    color: #64748b;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* =========================================================
+    IMPORT & MATCH EXCEL - COMPACT
+========================================================= */
+
+#matchExcelFile {
+    border: 1px dashed #d9d6e3;
+    border-radius: 9px;
+    background: #fafafd;
+    padding: 10px;
+}
+
+.match-excel-panel {
+    width: 100%;
+    padding: 14px 16px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.match-excel-panel h3 {
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.match-excel-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 10px;
+}
+
+.match-excel-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.match-excel-field label {
+    flex: 0 0 auto;
+    min-width: 78px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+}
+
+.match-excel-field input,
+.match-excel-field select {
+    width: 100%;
+    height: 34px;
+    padding: 0 9px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 12px;
+    outline: none;
+}
+
+.match-excel-field input:focus,
+.match-excel-field select:focus {
+    border-color: #2563eb;
+}
+
+.match-excel-file {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+input[type="file"] {
+  margin: 10px;
+}
+
+.match-excel-file input[type="file"] {
+    flex: 1;
+    min-width: 0;
+    height: 34px;
+    font-size: 12px;
+}
+
+.match-excel-button {
+    height: 34px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.match-excel-button:hover {
+    background: #1d4ed8;
+}
+
+.match-excel-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.match-excel-status {
+    margin-right: auto;
+    font-size: 12px;
+    color: #64748b;
+}
+
+@media (max-width: 700px) {
+    .match-excel-row {
+        grid-template-columns: 1fr;
+    }
+
+    .match-excel-field {
+        align-items: center;
+    }
+}
+
+/* =========================================================
+   CANVA VISUAL OVERRIDE
+   ---------------------------------------------------------
+   IMPORTANT:
+   - Tidak mengubah ID
+   - Tidak mengubah class yang dipakai JS
+   - Tidak mengubah display/visibility yang dikontrol JS
+   - Tidak membutuhkan perubahan shape-editor.js
+========================================================= */
+
+/* ---------- GLOBAL ---------- */
+
+html,
+body {
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+body {
+    background: #f7f7f9;
+    color: #25252b;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+
+/* ---------- SIDEBAR ---------- */
+
+.side-bar {
+    background: #ffffff;
+    border-right: 1px solid #ececf1;
+    box-shadow: 2px 0 14px rgba(30, 30, 50, 0.04);
+}
+
+.side-bar-item {
+    border-radius: 10px;
+    transition:
+        background 0.18s ease,
+        color 0.18s ease;
+}
+
+.side-bar-item:hover {
+    background: #f5f2ff;
+    color: #6d28d9;
+}
+
+.side-bar-item.active {
+    background: #f1edff;
+    color: #6d28d9;
+    font-weight: 600;
+}
+
+
+/* ---------- SIDEBAR TOGGLE ---------- */
+
+.sidebar-toggle {
+    top: 50%;
+    left: 203px;
+    transform: translateY(-50%);
+
+    width: 34px;
+    height: 52px;
+
+    border: 1px solid #e8e4f2;
+    border-radius: 0 10px 10px 0;
+
+    background: #ffffff;
+    color: #6d28d9;
+
+    box-shadow: 0 4px 14px rgba(30, 30, 50, 0.08);
+
+    transition:
+        left 0.25s ease,
+        background 0.18s ease;
+}
+
+.sidebar-toggle:hover {
+    background: #f5f2ff;
+}
+
+body.sidebar-hidden .sidebar-toggle {
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+}
+
+
+/* ---------- HEADER ---------- */
+
+.header {
+    background: transparent;
+}
+
+.header h1 {
+    color: #25252b;
+}
+
+.header p {
+    color: #858590;
+}
+
+
+/* ---------- UPLOAD CARD ---------- */
+
+.shape-editor-card {
+    background: #ffffff;
+    border: 1px solid #ececf1;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(30, 30, 50, 0.045);
+    padding: 18px;
+}
+
+.shape-file-input {
+    border: 1px dashed #d9d6e3;
+    border-radius: 9px;
+    background: #fafafd;
+}
+
+.shape-upload-button {
+    background: #7c3aed;
+    border-radius: 9px;
+    box-shadow: 0 5px 13px rgba(124, 58, 237, 0.18);
+}
+
+.shape-upload-button:hover {
+    background: #6d28d9;
+}
+
+.shape-info-item {
+    border: 1px solid #ececf1;
+    border-radius: 10px;
+    background: #fafafd;
+}
+
+.shape-info-label {
+    color: #858590;
+}
+
+.shape-info-value {
+    color: #303038;
+}
+
+
+/* =========================================================
+   MAP WORKSPACE
+========================================================= */
+
+.shape-workspace {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    min-height: 680px;
+    margin-top: 18px;
+
+    overflow: hidden;
+
+    border: 1px solid #e7e5ec;
+    border-radius: 17px;
+
+    background: #e9e7e3;
+
+    box-shadow: 0 8px 25px rgba(30, 30, 50, 0.08);
+}
+
+
+/* Map menjadi background workspace */
+
+.shape-map-container {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+
+    border: 0;
+    border-radius: 0;
+
+    overflow: hidden;
+
+    background: #e9e7e3;
+}
+
+#shapeMap {
+    width: 100%;
+    height: 100%;
+}
+
+#shapeMap .leaflet-container {
+    width: 100%;
+    height: 100%;
+    background: #e9e7e3;
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   SEARCH — FLOATING DI ATAS MAP
+========================================================= */
+
+.shape-search {
+    position: absolute;
+    z-index: 2000;
+
+    top: 18px;
+    left: 18px;
+
+    width: min(430px, calc(100% - 36px));
+
+    margin: 0;
+}
+
+.shape-search-box {
+    width: 100%;
+    min-height: 44px;
+
+    padding: 5px 6px;
+
+    border: 1px solid #e3e1e8;
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    box-shadow: 0 6px 18px rgba(30, 30, 50, 0.10);
+
+    backdrop-filter: blur(6px);
+}
+
+.shape-search-icon {
+    color: #777782;
+}
+
+.shape-search-attribute {
+    border-right: 1px solid #e9e7ee;
+    color: #555560;
+}
+
+.shape-search-input {
+    color: #303038;
+}
+
+.shape-search-input::placeholder {
+    color: #a0a0aa;
+}
+
+.shape-search-button {
+    background: #7c3aed;
+    color: #ffffff;
+}
+
+.shape-search-button:hover {
+    background: #6d28d9;
+}
+
+.shape-random-button {
+    background: #f3efff;
+    color: #6d28d9;
+}
+
+.shape-random-button:hover {
+    background: #e9ddff;
+}
+
+.shape-random-menu,
+.shape-search-results,
+.shape-search-values {
+    border: 1px solid #e7e4ed;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 7px 20px rgba(30, 30, 50, 0.12);
+}
+
+
+/* =========================================================
+   BOTTOM PANEL
+   Menjadi layer overlay di dalam map.
+========================================================= */
+
+.shape-bottom-panel {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 700;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    pointer-events: none;
+
+    background: transparent;
+
+    border: 0;
+}
+
+
+/* =========================================================
+   DATA ATRIBUT — FLOATING CARD KANAN ATAS
+========================================================= */
+
+.shape-attribute-panel {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    z-index: 850;
+
+    width: 315px;
+    max-width: calc(100% - 36px);
+    max-height: calc(100% - 36px);
+
+    margin: 0;
+    padding: 15px;
+
+    overflow: auto;
+
+    border: 1px solid #e7e4ed;
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    box-shadow: 0 9px 28px rgba(30, 30, 50, 0.12);
+
+    pointer-events: auto;
+
+    backdrop-filter: blur(7px);
+}
+
+.attribute-panel-header {
+    margin-bottom: 12px;
+    padding-bottom: 11px;
+
+    border-bottom: 1px solid #f0eef3;
+}
+
+.attribute-panel-header h3 {
+    color: #303038;
+}
+
+.attribute-panel-subtitle {
+    color: #888893;
+}
+
+.attribute-panel-mode {
+    background: #f3efff;
+    color: #6d28d9;
+}
+
+.attribute-row {
+    border-bottom: 1px solid #f0eef3;
+}
+
+.attribute-key {
+    color: #858590;
+}
+
+.attribute-value {
+    color: #34343c;
+}
+
+.attribute-edit-input {
+    border-color: #dedbe5;
+    border-radius: 8px;
+}
+
+.attribute-edit-input:focus {
+    border-color: #b7a0f5;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.09);
+}
+
+
+/* =========================================================
+   EDITOR — FLOATING TOOLBAR BAWAH TENGAH
+========================================================= */
+
+.shape-editor-panel {
+    position: absolute;
+
+    left: 50%;
+    bottom: 18px;
+
+    z-index: 900;
+
+    width: max-content;
+    max-width: calc(100% - 36px);
+
+    margin: 0;
+    padding: 8px;
+
+    transform: translateX(-50%);
+
+    border: 1px solid #e5e2eb;
+    border-radius: 13px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    box-shadow: 0 8px 25px rgba(30, 30, 50, 0.14);
+
+    pointer-events: auto;
+
+    backdrop-filter: blur(7px);
+}
+
+.shape-editor-panel h3,
+.shape-editor-description {
+    display: none;
+}
+
+.shape-editor-toolbar {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    margin: 0;
+}
+
+.shape-tool-button {
+    width: 38px;
+    height: 36px;
+
+    border: 1px solid #eceaf0;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #555560;
+
+    transition:
+        background 0.16s ease,
+        color 0.16s ease,
+        border-color 0.16s ease,
+        transform 0.16s ease;
+}
+
+.shape-tool-button:hover:not(:disabled) {
+    background: #f3efff;
+    border-color: #ded3fa;
+    color: #6d28d9;
+
+    transform: translateY(-1px);
+}
+
+.shape-tool-button:disabled {
+    opacity: 0.45;
+}
+
+
+
+/* =========================================================
+   HIGHLIGHT — POPUP DI ATAS TOOLBAR
+========================================================= */
+
+.attribute-highlight-panel {
+    position: absolute;
+
+    left: 50%;
+    bottom: 82px;
+
+    z-index: 950;
+
+    width: 330px;
+    max-width: calc(100% - 36px);
+
+    margin: 0;
+    padding: 14px;
+
+    transform: translateX(-50%);
+
+    border: 1px solid #e6e2ec;
+    border-radius: 13px;
+
+    background: rgba(255, 255, 255, 0.98);
+
+    box-shadow: 0 9px 28px rgba(30, 30, 50, 0.13);
+
+    pointer-events: auto;
+
+    backdrop-filter: blur(7px);
+}
+
+.attribute-highlight-row {
+    gap: 8px;
+}
+
+.attribute-highlight-select {
+    border-color: #dedbe5;
+    border-radius: 8px;
+}
+
+.attribute-highlight-action {
+    background: #7c3aed;
+}
+
+.attribute-highlight-action:hover {
+    background: #6d28d9;
+}
+
+.attribute-highlight-reset {
+    background: #f0eef4;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.shape-editor-status {
+    color: #858590;
+    background: transparent;
+    padding: 6px 0 0;
+    margin-top: 4px;
+    text-align: center;
+}
+
+
+/* =========================================================
+   MATCH EXCEL
+   Tetap card biasa di bawah workspace.
+========================================================= */
+
+.match-excel-panel {
+    width: 100%;
+
+    margin-top: 18px;
+    margin-bottom: 28px;
+
+    padding: 16px 18px;
+
+    border: 1px solid #ececf1;
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    box-shadow: 0 5px 20px rgba(30, 30, 50, 0.045);
+}
+
+.match-excel-panel h3 {
+    color: #303038;
+}
+
+.match-excel-field label {
+    color: #777782;
+}
+
+.match-excel-field input,
+.match-excel-field select {
+    border-color: #dedbe5;
+    border-radius: 8px;
+}
+
+.match-excel-field input:focus,
+.match-excel-field select:focus {
+    border-color: #b7a0f5;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
+}
+
+.match-excel-button {
+    background: #7c3aed;
+    border-radius: 8px;
+}
+
+.match-excel-button:hover {
+    background: #6d28d9;
+}
+
+.match-excel-status {
+    color: #858590;
+}
+
+
+/* =========================================================
+   EXPORT MODAL
+========================================================= */
+
+.shape-export-modal {
+    background: rgba(28, 27, 35, 0.42);
+    backdrop-filter: blur(3px);
+}
+
+.shape-export-dialog {
+    border: 1px solid #e8e5ed;
+    border-radius: 16px;
+
+    box-shadow: 0 18px 50px rgba(20, 18, 30, 0.20);
+}
+
+
+/* =========================================================
+   LEAFLET
+========================================================= */
+
+.leaflet-control-zoom {
+    border: 0 !important;
+    box-shadow: 0 5px 15px rgba(30, 30, 50, 0.10) !important;
+}
+
+.leaflet-control-zoom a {
+    border: 0 !important;
+    color: #555560 !important;
+}
+
+/* =========================================================
+   LEAFLET ZOOM — POSISI AMAN DI BAWAH SEARCH
+========================================================= */
+
+#shapeMap .leaflet-top.leaflet-left {
+    top: 78px;
+    left: 18px;
+}
+
+#shapeMap .leaflet-control-zoom {
+    margin: 0 !important;
+}
+
+@media (max-width: 700px) {
+
+    #shapeMap .leaflet-top.leaflet-left {
+        top: 125px;
+        left: 10px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .sidebar-toggle {
+        left: 18px;
+    }
+
+    body.sidebar-hidden .sidebar-toggle {
+        left: 18px;
+    }
+
+    .shape-workspace {
+        min-height: 620px;
+    }
+
+    .shape-attribute-panel {
+        width: 290px;
+        max-height: 300px;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .shape-workspace {
+        min-height: 650px;
+        border-radius: 13px;
+    }
+
+    .shape-search {
+        top: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+    }
+
+    .shape-attribute-panel {
+        top: 62px;
+        left: 10px;
+        right: 10px;
+
+        width: auto;
+        max-width: none;
+
+        max-height: 270px;
+    }
+
+    .shape-editor-panel {
+        bottom: 10px;
+        max-width: calc(100% - 20px);
+    }
+
+    .shape-tool-button {
+        width: 35px;
+        height: 34px;
+    }
+
+    .attribute-highlight-panel {
+        bottom: 72px;
+        width: 285px;
+    }
+
+    .match-excel-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .shape-workspace {
+        min-height: 650px;
+    }
+
+    .shape-attribute-panel {
+        max-height: 245px;
+    }
+
+    .shape-editor-toolbar {
+        gap: 3px;
+    }
+
+    .shape-tool-button {
+        width: 33px;
+        height: 33px;
+        padding: 0;
+    }
+
+    .attribute-highlight-panel {
+        left: 10px;
+        right: 10px;
+        bottom: 68px;
+
+        width: auto;
+        max-width: none;
+
+        transform: none;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .shape-search {
+        width: calc(100% - 20px);
+    }
+
+    .shape-search-attribute {
+        flex: 0 0 105px;
+        width: 105px;
+        min-width: 105px;
+        max-width: 105px;
+        font-size: 12px;
+    }
+
+    .shape-search-input {
+        font-size: 13px;
+    }
+
+}

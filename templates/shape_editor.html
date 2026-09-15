@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>Shape Editor - Variety Engine</title>
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/shape-editor.css') }}"
+  >
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+
+
+</head>
+
+
+<body>
+
+  <!-- =====================================================
+      EXPORT MODAL
+  ====================================================== -->
+
+  <div
+    id="shapeExportModal"
+    class="shape-export-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="shapeExportTitle"
+  >
+
+    <div class="shape-export-dialog">
+
+      <div class="shape-export-header">
+
+        <h2
+          id="shapeExportTitle"
+          class="shape-export-title"
+        >
+          Export Data
+        </h2>
+
+        <button
+          type="button"
+          id="shapeExportCloseButton"
+          class="shape-export-close"
+          aria-label="Tutup"
+        >
+          ✕
+        </button>
+
+      </div>
+
+
+      <div class="shape-export-body">
+
+        <div>
+          <strong>Pilih format export</strong>
+        </div>
+
+
+        <div class="shape-export-format">
+
+          <div class="shape-export-format-option">
+
+            <input
+              type="radio"
+              id="shapeExportFormatSHP"
+              name="shapeExportFormat"
+              value="shp"
+              checked
+            >
+
+            <label
+              for="shapeExportFormatSHP"
+              class="shape-export-format-label"
+            >
+
+              <strong>🗺️ SHP</strong>
+
+              <span>
+                Polygon + seluruh atribut
+              </span>
+
+            </label>
+
+          </div>
+
+
+          <div class="shape-export-format-option">
+
+            <input
+              type="radio"
+              id="shapeExportFormatExcel"
+              name="shapeExportFormat"
+              value="excel"
+            >
+
+            <label
+              for="shapeExportFormatExcel"
+              class="shape-export-format-label"
+            >
+
+              <strong>📊 Excel</strong>
+
+              <span>
+                Seluruh data atribut
+              </span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <div
+          id="shapeExportInfo"
+          class="shape-export-info"
+        >
+
+          <div class="shape-export-info-row">
+
+            <span>Jumlah polygon</span>
+
+            <strong id="shapeExportFeatureCount">
+              -
+            </strong>
+
+          </div>
+
+
+          <div class="shape-export-info-row">
+
+            <span>Jumlah atribut</span>
+
+            <strong id="shapeExportColumnCount">
+              -
+            </strong>
+
+          </div>
+
+
+          <div class="shape-export-info-row">
+
+            <span>Status data</span>
+
+            <strong>
+              Data tersimpan
+            </strong>
+
+          </div>
+
+        </div>
+
+        <div id="shapeExportProgress" class="shape-export-progress">
+
+          <div class="shape-export-progress-header">
+            <span>Progress Export</span>
+            <strong id="shapeExportProgressPercent">0%</strong>
+          </div>
+
+          <div class="shape-export-progress-track">
+            <div
+              id="shapeExportProgressBar"
+              class="shape-export-progress-bar"
+              style="width: 0%;"
+            ></div>
+          </div>
+
+          <div
+            id="shapeExportProgressText"
+            class="shape-export-progress-text"
+          >
+            0 / 0 polygon
+          </div>
+
+        </div>        
+
+        <div
+          id="shapeExportSettings"
+          class="shape-export-settings"
+        >
+
+          <label>
+            Nama file
+          </label>
+
+          <input
+            type="text"
+            id="shapeExportFilename"
+            class="shape-export-filename"
+            value="variety_engine_export"
+          >
+
+          <div
+            id="shapeExportFormatDescription"
+            class="shape-export-format-description"
+          >
+            SHP akan berisi geometry dan seluruh atribut
+            yang sudah tersimpan.
+          </div>
+
+        </div>        
+
+      </div>
+
+
+      <div class="shape-export-footer">
+
+        <button
+          type="button"
+          id="shapeExportCancelButton"
+          class="shape-export-cancel"
+        >
+          Batal
+        </button>
+
+        <button
+          type="button"
+          id="shapeExportConfirmButton"
+          class="shape-export-confirm"
+          onclick="exportShapeData()"
+        >
+          Export
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- =====================================================
+       SIDEBAR
+  ====================================================== -->
+
+  <aside
+    id="sideBar"
+    class="side-bar"
+  >
+
+    <div class="side-bar-header">
+
+      <div class="side-bar-logo">
+        VE
+      </div>
+
+      <div class="side-bar-title">
+        Variety Engine
+      </div>
+
+    </div>
+
+
+    <div class="side-bar-menu">
+
+      <button
+        type="button"
+        class="side-bar-item"
+        onclick="window.location.href='/'"
+      >
+
+        <span class="side-bar-icon">🏠</span>
+
+        <span class="side-bar-text">
+          Data & Filter
+        </span>
+
+      </button>
+
+
+      <button
+        type="button"
+        class="side-bar-item active"
+      >
+
+        <span class="side-bar-icon">🗺️</span>
+
+        <span class="side-bar-text">
+          Shape Editor
+        </span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================================
+       SIDEBAR TOGGLE
+  ====================================================== -->
+
+  <button
+    type="button"
+    id="sidebarToggle"
+    class="sidebar-toggle"
+    onclick="document.body.classList.toggle('sidebar-hidden')"
+    aria-label="Buka atau tutup sidebar"
+  >
+    ☰
+  </button>
+
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+  
+  <header class="header">
+
+    <div>
+
+      <h1>
+        Shape Editor
+      </h1>
+
+      <p>
+        Pengelolaan dan penyuntingan data spasial
+      </p>
+
+    </div>
+
+
+    <button
+      type="button"
+      id="shapeExportButton"
+      class="shape-editor-button primary"
+      onclick="openExportModal()"
+    >
+      📦 Export
+    </button>
+
+  </header>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="container">
+
+    <!-- ===================================================
+         UPLOAD
+    ==================================================== -->
+
+    <section class="card shape-editor-card">
+
+      <h2>
+        Shapefile
+      </h2>
+
+      <p class="section-description">
+        Upload Shapefile dalam bentuk ZIP atau RAR.
+        ZIP atau RAR harus berisi minimal file
+        <strong>.shp</strong>,
+        <strong>.shx</strong>, dan
+        <strong>.dbf</strong>.
+      </p>
+
+
+      <div class="shape-upload-area">
+
+        <input
+          type="file"
+          id="shapeFile"
+          class="shape-file-input"
+          accept=".zip,.rar"
+        >
+
+        <button
+          type="button"
+          id="uploadShapeButton"
+          class="shape-upload-button"
+        >
+          Upload Shapefile
+        </button>
+
+      </div>
+
+
+      <div
+        id="shapeStatus"
+        class="shape-status"
+      >
+        Belum ada Shapefile yang dimuat.
+      </div>
+
+
+      <div
+        id="shapeInfo"
+        class="shape-info"
+        style="display:none;"
+      >
+
+        <div class="shape-info-item">
+
+          <span class="shape-info-label">
+            File
+          </span>
+
+          <span
+            id="shapeFilename"
+            class="shape-info-value"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="shape-info-item">
+
+          <span class="shape-info-label">
+            Jumlah Feature
+          </span>
+
+          <span
+            id="shapeFeatureCount"
+            class="shape-info-value"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="shape-info-item">
+
+          <span class="shape-info-label">
+            Jumlah Kolom
+          </span>
+
+          <span
+            id="shapeColumnCount"
+            class="shape-info-value"
+          >
+            -
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         MAP + ATTRIBUTE
+    ==================================================== -->
+
+    <section
+      id="shapeWorkspace"
+      class="shape-workspace"
+      style="display:none;"
+    >
+
+      <!-- =================================================
+          SEARCH POLYGON
+      ================================================== -->
+
+      <div class="shape-search">
+
+        <div class="shape-search-box">
+
+          <span class="shape-search-icon">🔍</span>
+
+          <select
+            id="shapeSearchAttribute"
+            class="shape-search-attribute"
+            title="Pilih atribut pencarian"
+          >
+            <option value="__all__">
+              Semua Atribut
+            </option>
+          </select>
+
+          <input
+            type="text"
+            id="shapeSearchInput"
+            class="shape-search-input"
+            placeholder="Cari..."
+            autocomplete="off"
+          >
+
+          <button
+            type="button"
+            id="shapeSearchButton"
+            class="shape-search-button"
+            title="Cari polygon"
+            aria-label="Cari polygon"
+          >
+            🔍
+          </button>
+
+          <button
+            type="button"
+            id="shapeRandomButton"
+            class="shape-random-button"
+            title="Random"
+            aria-label="Random"
+          >
+            🔀
+          </button>
+
+          <div
+            id="shapeRandomMenu"
+            class="shape-random-menu"
+          >
+            <button
+              type="button"
+              id="randomPolygonButton"
+            >
+              Random Polygon
+            </button>
+
+            <button
+              type="button"
+              id="randomAttributeButton"
+            >
+              Random Atribut
+            </button>
+          </div>
+
+        </div>
+
+        <div
+          id="shapeSearchResults"
+          class="shape-search-results"
+          style="display:none;"
+        ></div>
+
+        <div
+          id="shapeSearchValues"
+          class="shape-search-values"
+        ></div>
+
+      </div>
+
+      <!-- =================================================
+          PETA FULL HORIZONTAL
+      ================================================== -->
+
+      <div class="shape-map-container">
+
+        <div id="shapeMap"></div>
+
+      </div>
+
+
+      <!-- =================================================
+          PANEL BAWAH
+      ================================================== -->
+
+      <div class="shape-bottom-panel">
+
+        <!-- ===============================================
+            DATA ATRIBUT + EDITOR
+        ================================================ -->
+
+        <div class="shape-attribute-panel">
+
+          <!-- HEADER DATA ATRIBUT -->
+
+          <div class="attribute-panel-header">
+
+            <div>
+
+              <h3>
+                Data Atribut
+              </h3>
+
+              <div class="attribute-panel-subtitle">
+                Data polygon yang dipilih
+              </div>
+
+            </div>
+
+            <div class="attribute-panel-mode">
+              Mode Normal
+            </div>
+
+          </div>
+
+
+          <!-- DATA ATRIBUT -->
+
+          <div
+            id="shapeAttributes"
+            class="attribute-empty"
+          >
+            Klik polygon pada peta untuk melihat atribut.
+          </div>
+
+
+
+
+          </div>
+
+        </div>
+
+        <!-- =============================================
+            EDITOR
+        ============================================== -->
+
+        <div class="shape-editor-panel">
+
+          <h3>
+            🛠️ Editor
+          </h3>
+
+
+          <div class="shape-editor-toolbar">
+
+            <button
+              type="button"
+              id="highlightAttributeButton"
+              class="shape-tool-button"
+              title="Highlight berdasarkan atribut"
+              aria-label="Highlight berdasarkan atribut"
+            >
+              🎨
+            </button>
+
+
+            <button
+              type="button"
+              id="editPolygonButton"
+              class="shape-tool-button"
+              title="Edit Polygon"
+              aria-label="Edit Polygon"
+            >
+              ✏️
+            </button>
+
+
+            <button
+              type="button"
+              id="undoPolygonButton"
+              class="shape-tool-button"
+              title="Undo"
+              aria-label="Undo"
+              disabled
+            >
+              ↶
+            </button>
+
+
+            <button
+              type="button"
+              id="redoPolygonButton"
+              class="shape-tool-button"
+              title="Redo"
+              aria-label="Redo"
+              disabled
+            >
+              ↷
+            </button>
+
+
+            <button
+              type="button"
+              id="measurePolygonButton"
+              class="shape-tool-button"
+              title="Ukur luas dan perimeter"
+              aria-label="Ukur luas dan perimeter"
+            >
+              📐
+            </button>
+
+
+            <button
+              type="button"
+              id="validatePolygonButton"
+              class="shape-tool-button"
+              title="Validasi polygon"
+              aria-label="Validasi polygon"
+            >
+              ✓
+            </button>
+
+
+            <button
+              type="button"
+              id="deletePolygonButton"
+              class="shape-tool-button"
+              title="Hapus polygon"
+              aria-label="Hapus polygon"
+            >
+              🗑️
+            </button>
+
+          </div>
+
+
+
+          <!-- =========================================
+              STATUS
+          ========================================== -->
+
+          <div
+            id="shapeEditorStatus"
+            class="shape-editor-status"
+          >
+            Belum ada polygon yang dipilih.
+          </div>
+
+      </div>
+
+    </section>
+
+  
+  <!-- =========================================
+      ATTRIBUTE HIGHLIGHT
+  ========================================== -->
+
+  <div
+    id="attributeHighlightPanel"
+    class="attribute-highlight-panel"
+    style="display:none;"
+  >
+
+    <div class="attribute-highlight-row">
+
+      <select
+        id="highlightAttributeSelect"
+        class="attribute-highlight-select"
+      >
+
+        <option value="">
+        Pilih atribut...
+        </option>
+
+      </select>
+
+
+      <div
+        id="attributeHighlightColors"
+        class="attribute-highlight-colors"
+      ></div>
+
+
+      <button
+        type="button"
+        id="applyHighlightButton"
+        class="attribute-highlight-action"
+      >
+        Terapkan
+      </button>
+
+
+      <button
+        type="button"
+        id="resetHighlightButton"
+        class="attribute-highlight-reset"
+      >
+        Reset
+      </button>
+
+    </div>
+
+
+    <div
+      id="attributeHighlightLegend"
+      class="attribute-highlight-legend"
+    ></div>
+
+  </div>
+
+  <!-- =====================================================
+      IMPORT & MATCH EXCEL
+  ===================================================== -->
+
+  <div
+      id="matchExcelPanel"
+      class="match-excel-panel"
+  >
+
+      <h3>📊 Import & Match Excel</h3>
+
+      <input
+          type="file"
+          id="matchExcelFile"
+          accept=".xlsx,.xls"
+      >
+      
+      <!-- SHEET + HEADER -->
+      <div class="match-excel-row">
+
+          <div class="match-excel-field">
+
+              <label for="matchExcelSheet">
+                  Sheet
+              </label>
+
+              <select id="matchExcelSheet">
+                  <option value="">
+                      Pilih Sheet
+                  </option>
+              </select>
+
+          </div>
+
+          <div class="match-excel-field">
+
+              <label for="matchExcelHeader">
+                  Header
+              </label>
+
+              <select id="matchExcelHeader">
+                  <option value="">
+                      Pilih Header
+                  </option>
+              </select>
+
+          </div>
+
+      </div>
+
+      <!-- KEY -->
+      <div class="match-excel-row">
+
+          <div class="match-excel-field">
+
+              <label for="matchShpKey">
+                  SHP Key
+              </label>
+
+              <select id="matchShpKey">
+                  <option value="">
+                      Pilih atribut SHP
+                  </option>
+              </select>
+
+          </div>
+
+          <div class="match-excel-field">
+
+              <label for="matchExcelKey">
+                  Excel Key
+              </label>
+
+              <select id="matchExcelKey">
+                  <option value="">
+                      Pilih atribut Excel
+                  </option>
+              </select>
+
+          </div>
+
+      </div>
+
+      <!-- NORMALIZATION + ACTION -->
+      <div class="match-excel-actions">
+
+          <div class="match-excel-field">
+
+              <label for="matchNormalization">
+                  Normalisasi
+              </label>
+
+              <select id="matchNormalization">
+
+                  <option value="default">
+                      Standard
+                  </option>
+
+                  <option value="compact">
+                      Compact
+                  </option>
+
+                  <option value="variety">
+                      Variety
+                  </option>
+
+              </select>
+
+          </div>
+
+          <div
+              id="matchExcelStatus"
+              class="match-excel-status"
+          >
+              Belum ada file Excel.
+          </div>
+
+          <button
+              type="button"
+              id="matchExcelAnalyzeButton"
+              class="match-excel-button"
+          >
+              🔍 Analisis
+          </button>
+
+      </div>
+
+  </div>
+  </main>
+
+
+  <!-- =====================================================
+       LEAFLET
+  ====================================================== -->
+
+  <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  ></script>
+
+  <script
+      src="{{ url_for('static', filename='js/shape-editor.js') }}"
+  ></script>
+
+</body>
+
+</html>
