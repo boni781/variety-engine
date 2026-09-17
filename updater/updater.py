@@ -10,7 +10,7 @@ from tkinter import messagebox
 
 GITHUB_OWNER = "boni781"
 GITHUB_REPO = "variety-engine"
-CURRENT_VERSION = "1.0.0"
+CURRENT_VERSION = "1.0.2"
 
 
 # ============================================================
@@ -79,6 +79,36 @@ def check_latest_version():
             "error": str(e)
         }
 
+def download_update(asset, destination):
+    """
+    Download file update dari GitHub Release.
+    """
+
+    url = asset.get("browser_download_url", "")
+
+    if not url:
+        raise RuntimeError(
+            "URL download update tidak ditemukan."
+        )
+
+    request = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": "Variety-Engine-Updater"
+        }
+    )
+
+    with urllib.request.urlopen(request, timeout=60) as response:
+        with open(destination, "wb") as output:
+            while True:
+                chunk = response.read(1024 * 1024)
+
+                if not chunk:
+                    break
+
+                output.write(chunk)
+
+    return destination
 
 # ============================================================
 # TEST
